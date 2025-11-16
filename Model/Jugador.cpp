@@ -50,3 +50,7 @@ void Jugador::ResetBuffs() {
 void Jugador::CurarJugador(int cantidad) {
     Entidad::Curar(cantidad);
 }
+
+Inventario& Jugador::GetInventario() {
+    return inventario;
+}

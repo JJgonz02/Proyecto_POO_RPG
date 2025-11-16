@@ -14,4 +14,5 @@ add_executable(RPG_POO main.cpp
         Model/Equipable.h
         Model/Equipable.cpp
         Model/Inventario.h
-        Model/Inventario.cpp)
+        Model/Inventario.cpp
+        Model/Objeto.cpp)
