@@ -4,7 +4,7 @@
 int main() {
     Vista vista;
     ControladorRPG controlador(&vista);
-    controlador.CombatePrueba();
+    controlador.IniciarJuego();
 
     return 0;
 }
