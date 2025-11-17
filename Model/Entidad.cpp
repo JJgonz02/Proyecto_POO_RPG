@@ -3,12 +3,18 @@
 Entidad::Entidad(const std::string& n, int hp, int atk, int def)
     : nombre(n), vida(hp), maxVida(hp), ataque(atk), defensa(def), vivo(true) {}
 
-void Entidad::RecibirDanio(int cantidad) {
-    int danioFinal = cantidad*(10/defensa);
+int Entidad::RecibirDanio(int cantidad) {
+    int danioFinal = (cantidad * 10 + defensa - 1) / defensa;
     if (danioFinal < 1) danioFinal = 1;
     vida -= danioFinal;
     if (vida <= 0) { vida = 0; vivo = false; }
+    return danioFinal;
 }
+
+int Entidad::Atacar() const {
+    return ataque;
+}
+
 
 void Entidad::Curar(int cantidad) {
     if (cantidad <= 0) return;

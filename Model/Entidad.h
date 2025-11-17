@@ -17,8 +17,8 @@ public:
 
     virtual ~Entidad() = default;
 
-    virtual int Atacar() const = 0;
-    virtual void RecibirDanio(int cantidad);
+    int Atacar() const;
+    virtual int RecibirDanio(int cantidad);
     virtual void Curar(int cantidad);
 
     // Getters

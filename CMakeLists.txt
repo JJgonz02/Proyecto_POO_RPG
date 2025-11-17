@@ -15,4 +15,12 @@ add_executable(RPG_POO main.cpp
         Model/Equipable.cpp
         Model/Inventario.h
         Model/Inventario.cpp
-        Model/Objeto.cpp)
+        Model/Objeto.cpp
+        Model/Enemigo.h
+        Model/Enemigo.cpp
+        Model/Merodeador.h
+        Model/Merodeador.cpp
+        ControllerRPG/ControladorRPG.cpp
+        ControllerRPG/ControladorRPG.h
+        ViewRPG/Vista.h
+        ViewRPG/Vista.cpp)

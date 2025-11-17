@@ -13,9 +13,6 @@ private:
 public:
     Jugador(const std::string& n, int hp, int atk, int def, int m);
 
-    int Atacar() const override;
-    void RecibirDanio(int cantidad) override;
-
     bool PuedeGastarMana(int costo) const;
     void GastarMana(int costo);
     int GetMana() const;
