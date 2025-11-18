@@ -25,4 +25,18 @@ add_executable(RPG_POO main.cpp
         ViewRPG/Vista.h
         ViewRPG/Vista.cpp
         Model/Habitacion.h
-        Model/Habitacion.cpp)
+        Model/Habitacion.cpp
+        Model/Constructo.h
+        Model/Constructo.cpp
+        Model/GranConstructo.h
+        Model/GranConstructo.cpp
+        Model/Espectro.h
+        Model/Espectro.cpp
+        Model/BestiaAlada.h
+        Model/BestiaAlada.cpp
+        Model/Estatua.h
+        Model/Estatua.cpp
+        Model/GranArmadura.h
+        Model/GranArmadura.cpp
+        Model/Mago.h
+        Model/Mago.cpp)

@@ -27,14 +27,29 @@ int Jugador::CuracionMagica() {
 }
 
 void Jugador::AplicarBuffDefensa(int aumento) {
+    int defensa_prebuff = defensa;
     defensa += aumento;
-    defensaTemporal += aumento;
+    if (defensa < 1) defensa = 1;
+    int buff = defensa - defensa_prebuff;
+    defensaTemporal += buff;
+}
+
+void Jugador::AplicarBuffAtaque(int aumento) {
+    int ataque_prebuff = ataque;
+    ataque += aumento;
+    if (ataque < 1) ataque = 1;
+    int buff = ataque - ataque_prebuff;
+    ataqueTemporal += buff;
 }
 
 void Jugador::ResetBuffs() {
     if (defensaTemporal > 0) {
         defensa -= defensaTemporal;
         defensaTemporal = 0;
+    }
+    if (ataqueTemporal > 0) {
+        ataque -= ataqueTemporal;
+        ataqueTemporal = 0;
     }
 }
 

@@ -8,6 +8,7 @@ class Jugador : public Entidad {
 private:
     int mana;
     int defensaTemporal;
+    int ataqueTemporal;
     Inventario inventario;
 
 public:
@@ -21,6 +22,7 @@ public:
     int AtaqueFuego();
     int CuracionMagica();
     void AplicarBuffDefensa(int aumento);
+    void AplicarBuffAtaque(int aumento);
     void ResetBuffs();
 
     void CurarJugador(int cantidad);

@@ -6,8 +6,7 @@
 class Merodeador : public Enemigo {
 public:
     Merodeador();
-
-    int Habilidad() override;
+    void Habilidad(Jugador& j) override;
 };
 
 #endif //RPG_POO_MERODEADOR_H

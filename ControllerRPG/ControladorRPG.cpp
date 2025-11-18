@@ -1,5 +1,7 @@
 #include "ControladorRPG.h"
 #include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Merodeador.h"
+#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Constructo.h"
+#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\GranConstructo.h"
 #include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Habitacion.h"
 #include <iostream>
 
@@ -133,7 +135,7 @@ void ControladorRPG::IniciarJuego() {
         nombreJugador = "Heroe";
     Jugador heroe(nombreJugador, 75, 8, 12, 20);
     std::vector<std::unique_ptr<Enemigo>> enemigos;
-    enemigos.push_back(std::make_unique<Merodeador>());
+    enemigos.push_back(std::make_unique<Constructo>());
     Combate(heroe, enemigos);
 }
 
@@ -196,8 +198,8 @@ void ControladorRPG::Combate(
 
                 if (!heroe.EstaViva()) break;
             } else {
-                int buff = e->Habilidad();
-                vista->MostrarHabilidadEnemigo(*e, buff);
+
+                vista->MostrarHabilidadEnemigo(*e, 5 );
             }
         }
     }
