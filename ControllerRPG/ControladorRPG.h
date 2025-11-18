@@ -4,6 +4,7 @@
 #include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Jugador.h"
 #include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Enemigo.h"
 #include "C:\Users\JuanJose\CLionProjects\RPG_POO\ViewRPG\Vista.h"
+#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Habitacion.h"
 
 class ControladorRPG {
 private:
@@ -12,6 +13,7 @@ private:
 public:
     ControladorRPG(Vista* v);
 
+    Habitacion* CrearMapa();
     void IniciarJuego();
     void Combate(Jugador& heroe, std::vector<std::unique_ptr<Enemigo>>& enemigos);
 };

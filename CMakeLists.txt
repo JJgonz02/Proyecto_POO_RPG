@@ -23,4 +23,6 @@ add_executable(RPG_POO main.cpp
         ControllerRPG/ControladorRPG.cpp
         ControllerRPG/ControladorRPG.h
         ViewRPG/Vista.h
-        ViewRPG/Vista.cpp)
+        ViewRPG/Vista.cpp
+        Model/Habitacion.h
+        Model/Habitacion.cpp)

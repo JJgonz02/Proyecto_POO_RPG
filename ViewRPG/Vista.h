@@ -21,7 +21,7 @@ public:
     void MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& h);
 
     void MostrarHabilidadEnemigo(const Enemigo& e, int spc);
-    
+
     void MostrarVictoria();
     void MostrarDerrota();
 
