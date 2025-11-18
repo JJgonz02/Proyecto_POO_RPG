@@ -1,10 +1,10 @@
 #ifndef RPG_POO_CONTROLADORRPG_H
 #define RPG_POO_CONTROLADORRPG_H
 
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Jugador.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Enemigo.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\ViewRPG\Vista.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Habitacion.h"
+#include "..\Model\Enemigo.h"
+#include "..\Model\Habitacion.h"
+#include "..\Model\Jugador.h"
+#include "..\ViewRPG\Vista.h"
 
 class ControladorRPG {
 private:

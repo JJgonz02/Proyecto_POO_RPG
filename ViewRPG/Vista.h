@@ -2,8 +2,8 @@
 #define RPG_POO_VISTA_H
 
 #include <vector>
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Jugador.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Enemigo.h"
+#include "..\Model\Jugador.h"
+#include "..\Model\Enemigo.h"
 
 class Vista {
 public:

@@ -1,8 +1,8 @@
 #include "ControladorRPG.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Merodeador.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Constructo.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\GranConstructo.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\Model\Habitacion.h"
+#include "..\Model\Merodeador.h"
+#include "..\Model\Constructo.h"
+#include "..\Model\GranConstructo.h"
+#include "..\Model\Habitacion.h"
 #include <iostream>
 
 ControladorRPG::ControladorRPG(Vista* v)
