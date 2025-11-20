@@ -9,13 +9,23 @@
 class ControladorRPG {
 private:
     Vista* vista;
+    std::vector<Habitacion*> hab;
+    int habitacionActual;
+    Jugador jugador;
 
 public:
     ControladorRPG(Vista* v);
 
-    Habitacion* CrearMapa();
+    void CrearMapa();
     void IniciarJuego();
+    void MenuPrincipal();
+
+    void ExplorarHabitacion();
+    void MoverHabitacion();
+    void MostrarStatsJugador();
+
     void Combate(Jugador& heroe, std::vector<std::unique_ptr<Enemigo>>& enemigos);
 };
+
 
 #endif

@@ -6,10 +6,14 @@
 #include <iostream>
 
 ControladorRPG::ControladorRPG(Vista* v)
-    : vista(v) {}
+        : vista(v), habitacionActual(1), jugador("Heroe", 75, 8, 12, 20)
+{
+    CrearMapa();
+}
 
-Habitacion* ControladorRPG::CrearMapa() {
-    std::vector<Habitacion*> hab(18, nullptr);
+void ControladorRPG::CrearMapa() {
+    hab.resize(18, nullptr);
+
 
     hab[1]  = new Habitacion(1, "Te encuentras frente a la entrada de las ruinas de un antiguo templo "
                                 "donde se veneraba a un dios del trueno, hay multiples estatuas alrededor de toda la entrada, parecen mirar en tu direccion",
@@ -23,7 +27,7 @@ Habitacion* ControladorRPG::CrearMapa() {
                                 "Detallando los muros de la habitacion te fijas en lo que parece un cuadro del dios del trueno, desgarrado, decides moverlo y...");
 
     hab[4]  = new Habitacion(4, "Una gran estatua destruida se encuentra en el centro de la habitacion, no logras"
-                                " identificar que representa pero su tamaño ensombrece toda la habitacion",
+                                " identificar que representa pero su tamano ensombrece toda la habitacion",
                                 "Entre los restos de los enemigos que acabas de derrotar distingues un brillo, te acercas y...");
 
     hab[5]  = new Habitacion(5, "Te encuentras dentro de la habitacion central del templo, hay "
@@ -120,9 +124,6 @@ Habitacion* ControladorRPG::CrearMapa() {
 
     hab[16]->SetConexion(1, hab[17]);
     hab[16]->SetConexion(2, hab[15]);
-
-    return hab[1];
-
 }
 
 
@@ -133,12 +134,74 @@ void ControladorRPG::IniciarJuego() {
 
     if (nombreJugador.empty())
         nombreJugador = "Heroe";
-    Jugador heroe(nombreJugador, 75, 8, 12, 20);
-    std::vector<std::unique_ptr<Enemigo>> enemigos;
-    enemigos.push_back(std::make_unique<Constructo>());
-    Combate(heroe, enemigos);
+    Jugador jugador(nombreJugador, 75, 8, 12, 20);
+
+    Habitacion* h = hab[habitacionActual];
+    vista->MostrarHabitacion(h->GetDescripcion());
+    while (true) {
+        MenuPrincipal();
+    };
+
+
 }
 
+void ControladorRPG::MenuPrincipal() {
+    vista->MostrarMenuPrincipal();
+    int opcion = vista->LeerOpcionJugador();
+
+    switch (opcion) {
+        case 1:
+            ExplorarHabitacion();
+            break;
+        case 2:
+            MoverHabitacion();
+            break;
+        case 3:
+            MostrarStatsJugador();
+            break;
+        case 4:
+            std::cout << "No implementado" << std::endl;
+            break;
+        case 5:
+            exit(0);
+            break;
+        default:
+            break;
+    }
+}
+
+void ControladorRPG::ExplorarHabitacion() {
+    Habitacion* h = hab[habitacionActual];
+
+    vista->MostrarExploracion(h->GetTextoExploracion());
+
+    h->MarcarExplorada();
+
+}
+
+void ControladorRPG::MoverHabitacion() {
+
+    Habitacion* actual = hab[habitacionActual];
+
+    vista->MostrarConexiones(*actual);
+
+    int dir = vista->LeerOpcionJugador();
+
+    Habitacion* destino = actual->GetConexion(dir);
+
+    if (!destino) {
+        std::cout << "No hay salida en esa dirección.\n";
+        return;
+    }
+
+    habitacionActual = destino->GetID();
+    Habitacion* h = hab[habitacionActual];
+    vista->MostrarHabitacion(h->GetDescripcion());
+}
+
+void ControladorRPG::MostrarStatsJugador() {
+    vista->MostrarStatsJugador(jugador);
+}
 
 void ControladorRPG::Combate(
         Jugador& heroe,

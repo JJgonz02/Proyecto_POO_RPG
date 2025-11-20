@@ -2,12 +2,16 @@
 
 
 Jugador::Jugador(const std::string& n, int hp, int atk, int def, int m)
-: Entidad(n, hp, atk, def), mana(m), defensaTemporal(0) {}
+: Entidad(n, hp, atk, def), mana(m), maxMana(m), defensaTemporal(0), ataqueTemporal(0) {}
 
 bool Jugador::PuedeGastarMana(int costo) const { return mana >= costo; }
 void Jugador::GastarMana(int costo) { if (mana >= costo) mana -= costo; }
 int Jugador::GetMana() const { return mana; }
-void Jugador::RecuperarMana(int cantidad) { mana += cantidad; }
+int Jugador::GetMaxMana() const { return maxMana; }
+void Jugador::RecuperarMana(int cantidad) {
+    mana += cantidad;
+    if (mana > maxMana) mana = maxMana;
+}
 
 int Jugador::AtaqueFuego() {
     const int costo = 5;

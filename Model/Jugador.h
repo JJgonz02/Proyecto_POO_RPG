@@ -6,6 +6,7 @@
 
 class Jugador : public Entidad {
 private:
+    int maxMana;
     int mana;
     int defensaTemporal;
     int ataqueTemporal;
@@ -17,6 +18,7 @@ public:
     bool PuedeGastarMana(int costo) const;
     void GastarMana(int costo);
     int GetMana() const;
+    int GetMaxMana() const;
     void RecuperarMana(int cantidad);
 
     int AtaqueFuego();

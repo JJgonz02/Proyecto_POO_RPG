@@ -1,6 +1,53 @@
 #include "Vista.h"
 #include <iostream>
+//Leer opción que elija el jugador para cualquier acción
+int Vista::LeerOpcionJugador() {
+    int opc;
+    std::cin >> opc;
+    return opc;
+}
 
+//Métodos para el MenuPrincipal
+void Vista::MostrarMenuPrincipal() {
+    std::cout << "// Acciones //\n" ;
+    std::cout << "1) Explorar habitacion\n 2) Ir a otra habitacion\n 3) Ver estadisticas\n"
+                 " 4) Ver inventario \n 5)Salir a pantalla de inicio" ;
+}
+void Vista::MostrarStatsJugador(const Jugador &h) {
+    std::cout << "Vida: " << h.GetVida() << "/" << h.GetMaxVida() << "\n"
+    "Atk: " << h.GetAtaque() << "\n"
+    "Def: " << h.GetDefensa() << "\n"
+    "Mana: " << h.GetMana() <<"/" << h.GetMaxMana() << "\n";
+}
+
+//Métodos para la exploración
+
+void Vista::MostrarHabitacion(std::string Texto) {
+    std::cout << Texto;
+}
+
+void Vista::MostrarConexiones(const Habitacion& h) {
+    std::cout << "\nSalidas disponibles desde esta habitacion:\n";
+
+    Habitacion* norte = h.GetConexion(0);
+    Habitacion* este  = h.GetConexion(1);
+    Habitacion* sur   = h.GetConexion(2);
+    Habitacion* oeste = h.GetConexion(3);
+
+    if (norte) std::cout << "0) Norte -> Habitacion " << norte->GetID() << "\n";
+    if (este)  std::cout << "1) Este  -> Habitacion " << este->GetID() << "\n";
+    if (sur)   std::cout << "2) Sur   -> Habitacion " << sur->GetID() << "\n";
+    if (oeste) std::cout << "3) Oeste -> Habitacion " << oeste->GetID() << "\n";
+
+    std::cout << "Elige una direccion (0-3): ";
+}
+
+
+void Vista::MostrarExploracion(std::string Texto) {
+    std::cout << Texto;
+}
+
+//Métodos para combate
 void Vista::MostrarInicioCombate(const Jugador& h,
                                  const std::vector<std::unique_ptr<Enemigo>>& enemigos)
 {
@@ -20,11 +67,7 @@ void Vista::MostrarTurnoJugador(const Jugador& h) {
     std::cout << "Mana de " << h.GetNombre() << ": "<< h.GetMana();
 }
 
-int Vista::LeerOpcionJugador() {
-    int opc;
-    std::cin >> opc;
-    return opc;
-}
+
 
 int Vista::ElegirObjetivo(const std::vector<std::unique_ptr<Enemigo>>& enemigos) {
     std::cout << "Elige un objetivo:\n";
@@ -52,6 +95,7 @@ void Vista::MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& h) {
     std::cout << e.GetNombre() << " te golpea por " << danio << "\n"
               << ". Vida de " << h.GetNombre() << ": " << h.GetVida() << "/" << h.GetMaxVida() << "\n";
 }
+
 
 void Vista::MostrarHabilidadEnemigo(const Enemigo& e, int spc) {
     std::cout << e.GetNombre() << " usa su habilidad. +" << spc

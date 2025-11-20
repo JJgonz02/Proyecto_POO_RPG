@@ -1,5 +1,5 @@
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\ControllerRPG\ControladorRPG.h"
-#include "C:\Users\JuanJose\CLionProjects\RPG_POO\ViewRPG\Vista.h"
+#include "..\Proyecto_POO_RPG\ControllerRPG\ControladorRPG.h"
+#include "..\Proyecto_POO_RPG\ViewRPG/Vista.h"
 
 int main() {
     Vista vista;
