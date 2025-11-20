@@ -4,8 +4,9 @@
 
 #include <string>
 
+class Jugador;
 
-enum class TipoObjeto {Consumible, Equipable};
+enum class TipoObjeto {Consumible, Equipable, Clave};
 
 class Objeto {
 protected:
@@ -15,13 +16,11 @@ protected:
 
 public:
     Objeto(const std::string& n, const std::string& d, TipoObjeto t);
-    virtual ~Objeto() = default;
-
     const std::string& GetNombre() const;
     const std::string& GetDescripcion() const;
     TipoObjeto GetTipo() const;
 
-    virtual void Usar() = 0;
+    virtual void Usar(Jugador& j) = 0;
 };
 
 #endif

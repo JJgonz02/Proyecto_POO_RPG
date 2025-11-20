@@ -2,6 +2,7 @@
 #define RPG_POO_EQUIPABLE_H
 
 #include "Objeto.h"
+#include "Jugador.h"
 
 class Equipable : public Objeto {
 private:
@@ -17,7 +18,7 @@ public:
     int GetBonusAtaque() const { return bonusAtaque; }
     int GetBonusDefensa() const { return bonusDefensa; }
 
-    void Usar() override;
+    void Usar(Jugador& j) override;
 };
 
 #endif

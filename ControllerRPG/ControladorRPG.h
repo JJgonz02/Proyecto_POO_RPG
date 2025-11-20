@@ -13,6 +13,7 @@ private:
     int habitacionActual;
     Jugador jugador;
 
+
 public:
     ControladorRPG(Vista* v);
 
@@ -23,8 +24,11 @@ public:
     void ExplorarHabitacion();
     void MoverHabitacion();
     void MostrarStatsJugador();
+    void AbrirInventario();
+    void UsarObjetoInventario();
 
-    void Combate(Jugador& heroe, std::vector<std::unique_ptr<Enemigo>>& enemigos);
+
+    void Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos);
 };
 
 

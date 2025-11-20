@@ -1,6 +1,9 @@
 #include "Equipable.h"
+#include "../Model/Jugador.h"
 #include <iostream>
 
-void Equipable::Usar() {
-    std::cout << "Equipas " << nombre << ".\n";
+void Equipable::Usar(Jugador& j) {
+    j.AplicarBuffAtaque(bonusAtaque);
+    j.AplicarBuffDefensa(bonusDefensa);
 }
+

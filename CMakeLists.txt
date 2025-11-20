@@ -39,4 +39,7 @@ add_executable(RPG_POO main.cpp
         Model/GranArmadura.h
         Model/GranArmadura.cpp
         Model/Mago.h
-        Model/Mago.cpp)
+        Model/Mago.cpp
+        Model/ObjetoClave.h
+        Model/ObjetoClave.cpp
+)

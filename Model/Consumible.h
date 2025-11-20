@@ -2,6 +2,7 @@
 #define RPG_POO_CONSUMIBLE_H
 
 #include "Objeto.h"
+#include "Jugador.h"
 
 class Consumible : public Objeto {
 private:
@@ -9,15 +10,9 @@ private:
     int sumaMana;
 
 public:
-    Consumible(const std::string& n, const std::string& descr,
-               int curaVida, int sumaMana)
-        : Objeto(nombre, descripcion, TipoObjeto::Consumible),
-          curaVida(curaVida), sumaMana(sumaMana) {}
+    Consumible(const std::string& n, const std::string& d, int cv, int sm);
 
-    int GetCuraVida() const { return curaVida; }
-    int GetsumaMana() const { return sumaMana; }
-
-    void Usar() override;
+    void Usar(Jugador& j) override;
 };
 
 #endif

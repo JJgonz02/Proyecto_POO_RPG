@@ -13,11 +13,11 @@ void Vista::MostrarMenuPrincipal() {
     std::cout << "1) Explorar habitacion\n 2) Ir a otra habitacion\n 3) Ver estadisticas\n"
                  " 4) Ver inventario \n 5)Salir a pantalla de inicio" ;
 }
-void Vista::MostrarStatsJugador(const Jugador &h) {
-    std::cout << "Vida: " << h.GetVida() << "/" << h.GetMaxVida() << "\n"
-    "Atk: " << h.GetAtaque() << "\n"
-    "Def: " << h.GetDefensa() << "\n"
-    "Mana: " << h.GetMana() <<"/" << h.GetMaxMana() << "\n";
+void Vista::MostrarStatsJugador(const Jugador &j) {
+    std::cout << j.GetNombre() << "\n" << "Vida: " << j.GetVida() << "/" << j.GetMaxVida() << "\n"
+    "Atk: " << j.GetAtaque() << "\n"
+    "Def: " << j.GetDefensa() << "\n"
+    "Mana: " << j.GetMana() <<"/" << j.GetMaxMana() << "\n";
 }
 
 //Métodos para la exploración
@@ -47,12 +47,40 @@ void Vista::MostrarExploracion(std::string Texto) {
     std::cout << Texto;
 }
 
+//Métodos Inventario
+
+void Vista::MostrarInventario(const Inventario& inv) const {
+    std::cout << "\n--- Inventario ---\n";
+    inv.Listar();
+    std::cout << inv.Cantidad() + 1 << ") Salir\n";
+}
+
+int Vista::ElegirObjeto(int max) const {
+    std::cout << "Selecciona objeto a usar: ";
+    int index;
+    std::cin >> index;
+    return index - 1;
+}
+
+void Vista::MostrarInventarioVacio() const {
+    std::cout << "\nTu inventario está vacio.\n";
+}
+
+void Vista::MostrarObjetoUsado(const std::string& nombre) const {
+    std::cout << "Usaste " << nombre << ".\n";
+}
+
+void Vista::MostrarObjetoClaveNoUsable() const {
+    std::cout << "Ese objeto no puede usarse manualmente.\n";
+}
+
+
 //Métodos para combate
-void Vista::MostrarInicioCombate(const Jugador& h,
+void Vista::MostrarInicioCombate(const Jugador& j,
                                  const std::vector<std::unique_ptr<Enemigo>>& enemigos)
 {
     std::cout << "Comienza el combate\n";
-    std::cout << h.GetNombre() << " Vida: " << h.GetVida() << "\n\n";
+    std::cout << j.GetNombre() << " Vida: " << j.GetVida() << "\n\n";
 
     std::cout << "Enemigos:\n";
     for (size_t i = 0; i < enemigos.size(); i++) {
@@ -61,10 +89,10 @@ void Vista::MostrarInicioCombate(const Jugador& h,
     std::cout << "\n";
 }
 
-void Vista::MostrarTurnoJugador(const Jugador& h) {
-    std::cout << "\n //Turno de " << h.GetNombre() << " // \n";
+void Vista::MostrarTurnoJugador(const Jugador& j) {
+    std::cout << "\n //Turno de " << j.GetNombre() << " // \n";
     std::cout << "1) Atacar\n2) Ataque Fuego (5 mana)\n";
-    std::cout << "Mana de " << h.GetNombre() << ": "<< h.GetMana();
+    std::cout << "Mana de " << j.GetNombre() << ": "<< j.GetMana();
 }
 
 
@@ -91,9 +119,9 @@ void Vista::MostrarTurnoEnemigo(const Enemigo& e) {
     std::cout << "\n// Turno del enemigo (" << e.GetNombre() << ") //\n";
 }
 
-void Vista::MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& h) {
+void Vista::MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& j) {
     std::cout << e.GetNombre() << " te golpea por " << danio << "\n"
-              << ". Vida de " << h.GetNombre() << ": " << h.GetVida() << "/" << h.GetMaxVida() << "\n";
+              << ". Vida de " << j.GetNombre() << ": " << j.GetVida() << "/" << j.GetMaxVida() << "\n";
 }
 
 

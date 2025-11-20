@@ -13,23 +13,31 @@ public:
 
     //Métodos para el MenuPrincipal
     void MostrarMenuPrincipal();
-    void MostrarStatsJugador(const Jugador& h);
+    void MostrarStatsJugador(const Jugador& j);
 
     //Método exploración
     void MostrarHabitacion(std::string Texto);
     void MostrarExploracion(std::string Texto);
     void MostrarConexiones(const Habitacion& h);
 
+    //Métodos Inventario
+    void MostrarInventario(const Inventario& inv) const;
+    int LeerOpcionInventario(int max) const;
+    int ElegirObjeto(int max) const;
+
+    void MostrarInventarioVacio() const;
+    void MostrarObjetoUsado(const std::string& nombre) const;
+    void MostrarObjetoClaveNoUsable() const;
 
 
     //Métodos para Combate
-    void MostrarInicioCombate(const Jugador& h,
+    void MostrarInicioCombate(const Jugador& j,
                               const std::vector<std::unique_ptr<Enemigo>>& enemigos);
-    void MostrarTurnoJugador(const Jugador& h);
+    void MostrarTurnoJugador(const Jugador& j);
     int ElegirObjetivo(const std::vector<std::unique_ptr<Enemigo>>& enemigos);
     void MostrarDanioJugador(int danio, const Enemigo& e);
     void MostrarTurnoEnemigo(const Enemigo& e);
-    void MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& h);
+    void MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& j);
     void MostrarHabilidadEnemigo(const Enemigo& e, int spc);
     void MostrarVictoria();
     void MostrarDerrota();
