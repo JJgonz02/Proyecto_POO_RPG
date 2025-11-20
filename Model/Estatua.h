@@ -6,8 +6,14 @@
 class Estatua : public Enemigo {
 public:
     Estatua();
-    void Habilidad(Jugador& j) override;
-    void Habilidad2(std::vector<Enemigo*>& aliados);
+    std::string Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) override;
+    std::string Habilidad2(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) override;
+    std::string Habilidad3(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) override;
+    std::string Habilidad4(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) override;
+    std::string Habilidad5(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) override;
+
+    int NumHabilidades() override;
+
 };
 
 #endif //RPG_POO_ESTATUA_H

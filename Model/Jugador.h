@@ -10,6 +10,7 @@ private:
     int mana;
     int defensaTemporal;
     int ataqueTemporal;
+    std::vector<std::string> habilidades;
     Inventario inventario;
 
 public:
@@ -21,8 +22,16 @@ public:
     int GetMaxMana() const;
     void RecuperarMana(int cantidad);
 
+    //Habilidades Mana
+    int GranEspadazo();
     int AtaqueFuego();
+    int Tornado();
+    int Escudo();
     int CuracionMagica();
+    void AgregarHabilidad(const std::string& h);
+    const std::vector<std::string>& GetHabilidades() const;
+
+
     void AplicarBuffDefensa(int aumento);
     void AplicarBuffAtaque(int aumento);
     void ResetBuffs();

@@ -7,11 +7,16 @@ int Vista::LeerOpcionJugador() {
     return opc;
 }
 
+void Vista::MostrarOpcionInvalida() {
+    std::cout << "Opcion Invalida\n";
+}
+
+
 //Métodos para el MenuPrincipal
 void Vista::MostrarMenuPrincipal() {
     std::cout << "// Acciones //\n" ;
     std::cout << "1) Explorar habitacion\n 2) Ir a otra habitacion\n 3) Ver estadisticas\n"
-                 " 4) Ver inventario \n 5)Salir a pantalla de inicio" ;
+                 " 4) Ver inventario \n 5)Salir a pantalla de inicio \n 6)Combate de prueba Temporal" ;
 }
 void Vista::MostrarStatsJugador(const Jugador &j) {
     std::cout << j.GetNombre() << "\n" << "Vida: " << j.GetVida() << "/" << j.GetMaxVida() << "\n"
@@ -22,7 +27,7 @@ void Vista::MostrarStatsJugador(const Jugador &j) {
 
 //Métodos para la exploración
 
-void Vista::MostrarHabitacion(std::string Texto) {
+void Vista::MostrarHabitacion(const std::string& Texto) {
     std::cout << Texto;
 }
 
@@ -43,7 +48,7 @@ void Vista::MostrarConexiones(const Habitacion& h) {
 }
 
 
-void Vista::MostrarExploracion(std::string Texto) {
+void Vista::MostrarExploracion(const std::string& Texto) {
     std::cout << Texto;
 }
 
@@ -90,9 +95,15 @@ void Vista::MostrarInicioCombate(const Jugador& j,
 }
 
 void Vista::MostrarTurnoJugador(const Jugador& j) {
-    std::cout << "\n //Turno de " << j.GetNombre() << " // \n";
-    std::cout << "1) Atacar\n2) Ataque Fuego (5 mana)\n";
-    std::cout << "Mana de " << j.GetNombre() << ": "<< j.GetMana();
+    std::cout << "0) Mostrar Estadisticas\n";
+    std::cout << "1) Ataque basico\n";
+    std::cout << "2) Inventario\n";
+
+    int op = 3;
+    for (const auto& h : j.GetHabilidades()) {
+        std::cout << op << ") " << h << "\n";
+        op++;
+    }
 }
 
 
@@ -115,6 +126,23 @@ void Vista::MostrarDanioJugador(int danio, const Enemigo& e) {
               << (int)porcentaje_vida  << "%" << "\n";
 }
 
+void Vista::MostrarHabilidadesJugador(const Jugador& j, std::string Habilidad) {
+    std::cout << j.GetNombre() << " usa " << Habilidad << "!\n" ;
+}
+
+void Vista::MostrarCuracionJugador(const Jugador &j) {
+    std::cout << j.GetNombre() << " recupera vida!\n"
+    "Vida: " << j.GetVida();
+}
+
+void Vista::MostrarBuffAtkJugador(int atk) {
+    std::cout << "+" << atk << " de ataque!\n";
+}
+
+void Vista::MostrarBuffDefJugador(int def) {
+    std::cout << "+" << def << " de defensa!\n";
+}
+
 void Vista::MostrarTurnoEnemigo(const Enemigo& e) {
     std::cout << "\n// Turno del enemigo (" << e.GetNombre() << ") //\n";
 }
@@ -125,9 +153,8 @@ void Vista::MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& j) {
 }
 
 
-void Vista::MostrarHabilidadEnemigo(const Enemigo& e, int spc) {
-    std::cout << e.GetNombre() << " usa su habilidad. +" << spc
-              << " ataque!\n";
+void Vista::MostrarHabilidadEnemigo(const Enemigo& e, const std::string& Texto) {
+    std::cout << Texto << "\n";
 }
 
 void Vista::MostrarVictoria() {

@@ -149,6 +149,9 @@ void ControladorRPG::IniciarJuego() {
         std::make_unique<Consumible>("Extracto de mana", "Restaura 15 de mana", 0, 15)
     );
 
+    jugador.AgregarHabilidad("GranEspadazo");
+    jugador.AgregarHabilidad("CuracionMagica");
+
     Habitacion* h = hab[habitacionActual];
     vista->MostrarHabitacion(h->GetDescripcion());
     while (true) {
@@ -177,6 +180,15 @@ void ControladorRPG::MenuPrincipal() {
             break;
         case 5:
             exit(0);
+            break;
+        case 6: {
+            //Temporal
+            std::vector<std::unique_ptr<Enemigo>> enemigosPrueba;
+            enemigosPrueba.push_back(std::make_unique<Merodeador>());
+            enemigosPrueba.push_back(std::make_unique<Merodeador>());
+            enemigosPrueba.push_back(std::make_unique<Constructo>());
+            Combate(enemigosPrueba);
+        }
             break;
         default:
             break;
@@ -216,16 +228,17 @@ void ControladorRPG::MostrarStatsJugador() {
     vista->MostrarStatsJugador(jugador);
 }
 
-void ControladorRPG::AbrirInventario() {
+bool ControladorRPG::AbrirInventario() {
     auto& inv = jugador.GetInventario();
 
     if (inv.Cantidad() == 0) {
         vista->MostrarInventarioVacio();
-        return;
+        return false;
     }
 
     vista->MostrarInventario(inv);
     UsarObjetoInventario();
+    return true;
 }
 
 void ControladorRPG::UsarObjetoInventario() {
@@ -267,35 +280,61 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
 
     while (jugador.EstaViva()) {
 
-        bool hayVivos = false;
-        for (auto& e : enemigos)
-            if (e->EstaViva())
-                hayVivos = true;
-        if (!hayVivos)
-            break;
+        bool vivos = false;
+        for (auto& e : enemigos) if (e->EstaViva()) vivos = true;
+        if (!vivos) break;
 
-        vista->MostrarTurnoJugador(jugador);
-        int opcion = vista->LeerOpcionJugador();
+        bool turnoConsumido = false;
 
-        if (opcion == 1) {
-            int i = vista->ElegirObjetivo(enemigos);
-            if (i >= 0 && i < (int)enemigos.size() && enemigos[i]->EstaViva()) {
-                int base = jugador.Atacar();
-                int real = enemigos[i]->RecibirDanio(base);
-                vista->MostrarDanioJugador(real, *enemigos[i]);
+        while (!turnoConsumido) {
+
+            vista->MostrarTurnoJugador(jugador);
+            int opcion = vista->LeerOpcionJugador();
+
+            int totalOpciones = 2 + jugador.GetHabilidades().size();
+
+            if (opcion < 0 || opcion > totalOpciones) {
+                vista->MostrarOpcionInvalida();
+                continue;
             }
 
-        } else if (opcion == 2) {
-            int i = vista->ElegirObjetivo(enemigos);
-            int base = jugador.AtaqueFuego();
-            if (base < 0) vista->MostrarSinMana();
+            if (opcion ==0) {
+                MostrarStatsJugador();
+                continue;
+            }
+
+            if (opcion == 1) {
+                int obj = vista->ElegirObjetivo(enemigos);
+                int danio = jugador.Atacar();
+                int real = enemigos[obj]->RecibirDanio(danio);
+                vista->MostrarDanioJugador(real, *enemigos[obj]);
+                turnoConsumido = true;
+            }
+
+            else if (opcion == 2) {
+                bool usoObjeto = AbrirInventario();
+                turnoConsumido = usoObjeto;
+            }
+
             else {
-                int real = enemigos[i]->RecibirDanio(base);
-                vista->MostrarDanioJugador(real, *enemigos[i]);
+                int habIndex = opcion - 3;
+                if (habIndex < 0 || habIndex >= (int)jugador.GetHabilidades().size()) {
+                    vista->MostrarOpcionInvalida();
+                    continue;
+                }
+
+                int objetivo = -1;
+                std::string habilidad = jugador.GetHabilidades()[habIndex];
+
+                if (habilidad != "Escudo" && habilidad != "CuracionMagica") {
+                    objetivo = vista->ElegirObjetivo(enemigos);
+                }
+
+                bool usada = EjecutarHabilidadJugador(habIndex, objetivo, enemigos);
+
+                if (usada) turnoConsumido = true;
             }
 
-        } else if (opcion == 3) {
-            AbrirInventario();
         }
 
         bool todosMuertos = true;
@@ -308,22 +347,106 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
             if (!e->EstaViva()) continue;
 
             vista->MostrarTurnoEnemigo(*e);
-            int accion = rand() % 101;
 
-            if (accion <= 70) {
-                int base = e->Atacar();
-                int real = jugador.RecibirDanio(base);
-                vista->MostrarDanioEnemigo(*e, real, jugador);
+            int prob = rand() % 2;
 
-                if (!jugador.EstaViva()) break;
+            if (prob == 0) {
+                int danio = e->Atacar();
+                jugador.RecibirDanio(danio);
+                vista->MostrarDanioEnemigo(*e, danio, jugador);
             } else {
-                vista->MostrarHabilidadEnemigo(*e, 5 );
+                EjecutarHabilidadEnemigo(*e, enemigos);
             }
+
+            if (!jugador.EstaViva()) break;
         }
+
     }
 
-    if (jugador.EstaViva())
-        vista->MostrarVictoria();
-    else
-        vista->MostrarDerrota();
+    if (jugador.EstaViva()) vista->MostrarVictoria();
+    else vista->MostrarDerrota();
 }
+
+bool ControladorRPG::EjecutarHabilidadJugador(int index, int objetivo, std::vector<std::unique_ptr<Enemigo>>& enemigos)
+{
+    std::string h = jugador.GetHabilidades()[index];
+
+    if (h == "GranEspadazo") {
+        int base = jugador.GranEspadazo();
+        if (base < 0) {
+            vista->MostrarSinMana();
+            return false; // turno NO consumido
+        }
+        vista->MostrarHabilidadesJugador(jugador, "Gran Espadazo");
+        int real = enemigos[objetivo]->RecibirDanio(base);
+        vista->MostrarDanioJugador(real, *enemigos[objetivo]);
+        return true;
+    }
+
+    else if (h == "AtaqueFuego") {
+        int base = jugador.AtaqueFuego();
+        if (base < 0) {
+            vista->MostrarSinMana();
+            return false; // turno NO consumido
+        }
+        vista->MostrarHabilidadesJugador(jugador, "Ataque Fuego");
+        int real = enemigos[objetivo]->RecibirDanio(base);
+        vista->MostrarDanioJugador(real, *enemigos[objetivo]);
+        return true;
+    }
+
+    else if (h == "Tornado") {
+        int base = jugador.Tornado();
+        if (base < 0) {
+            vista->MostrarSinMana();
+            return false; // turno NO consumido
+        }
+        vista->MostrarHabilidadesJugador(jugador, "Tornado");
+        int real = enemigos[objetivo]->RecibirDanio(base);
+        vista->MostrarDanioJugador(real, *enemigos[objetivo]);
+        return true;
+    }
+
+    else if (h == "Escudo") {
+        int buff = jugador.Escudo();
+        if (buff < 0) {
+            vista->MostrarSinMana();
+            return false;
+        }
+        vista->MostrarBuffDefJugador(buff);
+        return true;
+    }
+
+    else if (h == "CuracionMagica") {
+        int cura = jugador.CuracionMagica();
+        if (cura < 0) {
+            vista->MostrarSinMana();
+            return false;
+        }
+        vista->MostrarCuracionJugador(jugador);
+        return true;
+    }
+
+    vista->MostrarOpcionInvalida();
+    return false;
+}
+
+
+void ControladorRPG::EjecutarHabilidadEnemigo(Enemigo& e, std::vector<std::unique_ptr<Enemigo>>& enemigos) {
+
+    int n = e.NumHabilidades();
+    int eleccion = rand() % n;
+    std::string texto;
+
+    switch (eleccion) {
+        case 0: texto = e.Habilidad(jugador, enemigos); break;
+        case 1: texto = e.Habilidad2(jugador, enemigos); break;
+        case 2: texto = e.Habilidad3(jugador, enemigos); break;
+        case 3: texto = e.Habilidad4(jugador, enemigos); break;
+        case 4: texto = e.Habilidad5(jugador, enemigos); break;
+    }
+
+    vista->MostrarHabilidadEnemigo(e, texto);
+
+}
+

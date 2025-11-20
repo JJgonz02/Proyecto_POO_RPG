@@ -13,12 +13,37 @@ void Jugador::RecuperarMana(int cantidad) {
     if (mana > maxMana) mana = maxMana;
 }
 
+int Jugador::GranEspadazo() {
+    const int costo = 3;
+    const int danio = 15;
+    if (!PuedeGastarMana(costo)) return -1;
+    GastarMana(costo);
+    return danio;
+}
+
 int Jugador::AtaqueFuego() {
     const int costo = 5;
     const int danio = 20;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     return danio;
+}
+
+int Jugador::Tornado() {
+    const int costo = 8;
+    const int danio = 28;
+    if (!PuedeGastarMana(costo)) return -1;
+    GastarMana(costo);
+    return danio;
+}
+
+int Jugador::Escudo() {
+    const int costo = 7;
+    const int shield = 5;
+    if (!PuedeGastarMana(costo)) return -1;
+    GastarMana(costo);
+    AplicarBuffDefensa(shield);
+    return shield;
 }
 
 int Jugador::CuracionMagica() {
@@ -28,6 +53,14 @@ int Jugador::CuracionMagica() {
     GastarMana(costo);
     CurarJugador(cantidad);
     return cantidad;
+}
+
+void Jugador::AgregarHabilidad(const std::string& h) {
+    habilidades.push_back(h);
+}
+
+const std::vector<std::string>& Jugador::GetHabilidades() const {
+    return habilidades;
 }
 
 void Jugador::AplicarBuffDefensa(int aumento) {
@@ -60,6 +93,7 @@ void Jugador::ResetBuffs() {
 void Jugador::CurarJugador(int cantidad) {
     Entidad::Curar(cantidad);
 }
+
 
 Inventario& Jugador::GetInventario() {
     return inventario;

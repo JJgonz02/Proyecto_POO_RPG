@@ -24,11 +24,13 @@ public:
     void ExplorarHabitacion();
     void MoverHabitacion();
     void MostrarStatsJugador();
-    void AbrirInventario();
+    bool AbrirInventario();
     void UsarObjetoInventario();
 
 
     void Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos);
+    bool EjecutarHabilidadJugador(int index, int objetivo, std::vector<std::unique_ptr<Enemigo>>& enemigos);
+    void EjecutarHabilidadEnemigo(Enemigo& e, std::vector<std::unique_ptr<Enemigo>>& enemigos);
 };
 
 
