@@ -17,6 +17,8 @@ public:
     Objeto* Get(size_t index);
     size_t Cantidad() const;
     void Listar() const;
+    bool TieneClave(const std::string& nombre) const;
+
 };
 
 #endif

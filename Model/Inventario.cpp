@@ -30,3 +30,14 @@ void Inventario::Listar() const {
     }
 }
 
+bool Inventario::TieneClave(const std::string& nombre) const {
+    for (const auto& obj : objetos) {
+        if (obj->GetTipo() == TipoObjeto::Clave &&
+            obj->GetNombre() == nombre) {
+            return true;
+            }
+    }
+    return false;
+}
+
+

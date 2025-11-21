@@ -15,7 +15,7 @@ void Jugador::RecuperarMana(int cantidad) {
 
 int Jugador::GranEspadazo() {
     const int costo = 3;
-    const int danio = 15;
+    const int danio = 40;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     return danio;
@@ -23,7 +23,7 @@ int Jugador::GranEspadazo() {
 
 int Jugador::AtaqueFuego() {
     const int costo = 5;
-    const int danio = 20;
+    const int danio = 60;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     return danio;
@@ -31,7 +31,7 @@ int Jugador::AtaqueFuego() {
 
 int Jugador::Tornado() {
     const int costo = 8;
-    const int danio = 28;
+    const int danio = 80;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     return danio;
@@ -39,7 +39,7 @@ int Jugador::Tornado() {
 
 int Jugador::Escudo() {
     const int costo = 7;
-    const int shield = 5;
+    const int shield = 25;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     AplicarBuffDefensa(shield);
@@ -48,7 +48,7 @@ int Jugador::Escudo() {
 
 int Jugador::CuracionMagica() {
     const int costo = 3;
-    const int cantidad = 15;
+    const int cantidad = 30;
     if (!PuedeGastarMana(costo)) return -1;
     GastarMana(costo);
     CurarJugador(cantidad);
@@ -98,3 +98,8 @@ void Jugador::CurarJugador(int cantidad) {
 Inventario& Jugador::GetInventario() {
     return inventario;
 }
+
+bool Jugador::TieneObjetoClave(const std::string &nombre) {
+    return inventario.TieneClave(nombre);
+}
+

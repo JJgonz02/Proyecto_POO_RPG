@@ -16,7 +16,7 @@ void Vista::MostrarOpcionInvalida() {
 void Vista::MostrarMenuPrincipal() {
     std::cout << "// Acciones //\n" ;
     std::cout << "1) Explorar habitacion\n 2) Ir a otra habitacion\n 3) Ver estadisticas\n"
-                 " 4) Ver inventario \n 5)Salir a pantalla de inicio \n 6)Combate de prueba Temporal" ;
+                 " 4) Ver inventario \n 5)Salir a pantalla de inicio \n" ;
 }
 void Vista::MostrarStatsJugador(const Jugador &j) {
     std::cout << j.GetNombre() << "\n" << "Vida: " << j.GetVida() << "/" << j.GetMaxVida() << "\n"
@@ -167,7 +167,6 @@ void Vista::MostrarVictoria() {
 void Vista::MostrarDerrota() {
     std::cout << "\nDerrota...\n";
 }
-
 void Vista::MostrarSinMana() {
     std::cout << "No tienes suficiente mana.\n";
 }

@@ -39,7 +39,8 @@ public:
     void CurarJugador(int cantidad);
 
     Inventario& GetInventario();
-};
+    bool TieneObjetoClave(const std::string& nombre);
+    };
 
 #endif
 

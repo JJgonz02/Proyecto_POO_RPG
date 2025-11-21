@@ -12,7 +12,6 @@ private:
 public:
     Equipable(const std::string& n, const std::string& descr,
               int bonusAtk, int bonusDef)
-        // CORRECCIÓN: Usar los parámetros 'n' y 'descr' en lugar de 'nombre' y 'descripcion'
         : Objeto(n, descr, TipoObjeto::Equipable),
           bonusAtaque(bonusAtk),
           bonusDefensa(bonusDef) {}

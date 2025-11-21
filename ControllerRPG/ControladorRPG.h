@@ -10,6 +10,7 @@ class ControladorRPG {
 private:
     Vista* vista;
     std::vector<std::unique_ptr<Habitacion>> hab;
+    int ultimaHabitacion = 1;
     int habitacionActual;
     Jugador jugador;
 

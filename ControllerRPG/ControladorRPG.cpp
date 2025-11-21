@@ -21,7 +21,7 @@
 
 
 ControladorRPG::ControladorRPG(Vista* v)
-        : vista(v), habitacionActual(1), jugador("Heroe", 75, 8000, 12, 20)
+        : vista(v), habitacionActual(1), jugador("Heroe", 100, 30, 35, 30)
 {
     CrearMapa();
 }
@@ -49,7 +49,7 @@ void ControladorRPG::CrearMapa() {
     hab[2]  = std::make_unique<Habitacion>(2, "Una sala completamente silenciosa y oscura\n",
         "Invocas una pequeña flama para iluminar la habitación y...\n");
 
-    hab[3]  = std::make_unique<Habitacion>(3, "Dentro de la habitación se levantan 2 pilares enormes decorados con antiguos simbolos elficos, "
+    hab[3]  = std::make_unique<Habitacion>(3, "Dentro de la habitacion se levantan 2 pilares enormes decorados con antiguos simbolos elficos, "
                                 "parecen ilustrar un ritual en el cual los elfos se dirigian a la cima del templo al llegar a su adultez\n",
                                 "Detallando los muros de la habitacion te fijas en lo que parece un cuadro del dios del trueno, desgarrado, decides moverlo y...\n");
 
@@ -75,7 +75,10 @@ void ControladorRPG::CrearMapa() {
                                 "parece util\n", "Decidis estirarte hacia la estructura y...\n");
 
     hab[10] = std::make_unique<Habitacion>(10,"Te encuentras una habitacion oscura con 2 antorchas encendidas, en medio de la habitacion se encuentra ¿un anciano?\n",
-        "Decides hablar con el anciano...\n");
+        "Decides hablar con el anciano...\n"
+        "Has llegado lejos, viajero. Este santuario pertenecio a los Hijos del Trueno, guardianes del equilibrio entre los cielos y la tierra.\n"
+        "Pero algo antiguo despertó… una ira que ni los elfos ni los constructos pudieron contener. Si deseas llegar a la cima, necesitarás más que valor.\n"
+        "Toma esto. Quien la porte será protegido por la voluntad del rayo.\n");
 
     hab[11] = std::make_unique<Habitacion>(11,"Te encuentras con una sala con multiples canales de agua, hay una sola salida hacia el norte\n",
         "No logras distinguir nada entre los canales de agua\n");
@@ -86,7 +89,7 @@ void ControladorRPG::CrearMapa() {
     hab[13] = std::make_unique<Habitacion>(13,"Una habitacion totalmente vacía con un cofre en el fondo\n",
         "Te dispones a abrir el cofre y...\n");
 
-    hab[14] = std::make_unique<Habitacion>(14,"Una habitacion mayormente destruida con 4 pilares, un muro destruido deja ver las nubes y las montañas a la distancia\n",
+    hab[14] = std::make_unique<Habitacion>(14,"Una habitacion mayormente destruida con 4 pilares, un muro destruido deja ver las nubes y las montanas a la distancia\n",
         "No hay mucho que observar por aqui, solo notas la altura en la que te encuentras\n");
 
     hab[15] = std::make_unique<Habitacion>(15,"Una sala llena de pilares como un laberinto, probablemente un lugar antiguo de congregacion, sientes "
@@ -144,12 +147,37 @@ void ControladorRPG::CrearMapa() {
 
     hab[14]->SetConexion(1, hab[15].get());
     hab[14]->SetConexion(2, hab[7].get());
-    hab[14]->SetConexion(3, hab[15].get());
+    hab[14]->SetConexion(3, hab[8].get());
 
-    hab[15]->SetConexion(0, hab[16].get());
     hab[15]->SetConexion(3, hab[14].get());
+    hab[15]->SetConexion(0, hab[16].get());
 
     hab[16]->SetConexion(2, hab[15].get());
+
+    //Asignando enemigos
+    hab[3]->AgregarEnemigo(std::make_unique<Merodeador>());
+    hab[3]->AgregarEnemigo(std::make_unique<Merodeador>());
+
+    hab[4]->AgregarEnemigo(std::make_unique<Espectro>());
+    hab[4]->AgregarEnemigo(std::make_unique<Constructo>());
+    hab[4]->AgregarEnemigo(std::make_unique<Merodeador>());
+
+    hab[7]->AgregarEnemigo(std::make_unique<Espectro>());
+    hab[7]->AgregarEnemigo(std::make_unique<GranConstructo>());
+
+    hab[8]->AgregarEnemigo(std::make_unique<Mago>());
+    hab[8]->AgregarEnemigo(std::make_unique<Mago>());
+    hab[8]->AgregarEnemigo(std::make_unique<Estatua>());
+
+    hab[11]->AgregarEnemigo(std::make_unique<Estatua>());
+    hab[11]->AgregarEnemigo(std::make_unique<BestiaAlada>());
+
+    hab[12]->AgregarEnemigo(std::make_unique<GranArmadura>());
+    hab[12]->AgregarEnemigo(std::make_unique<Estatua>());
+
+    hab[15]->AgregarEnemigo(std::make_unique<Mago>());
+    hab[15]->AgregarEnemigo(std::make_unique<GranArmadura>());
+
 
     //Asignando eventos
     hab[1]->AsignarEvento(
@@ -194,7 +222,7 @@ std::make_unique<EventoObjeto>(
 
     hab[8]->AsignarEvento(
    std::make_unique<EventoObjeto>(
-       std::make_unique<Equipable>("Escudo Pequeño", "Aumenta tu defensa +25 durante un combate", 0, 25)
+       std::make_unique<Equipable>("Escudo Pequeno", "Aumenta tu defensa +25 durante un combate", 0, 25)
    )
    );
 
@@ -244,7 +272,7 @@ void ControladorRPG::IniciarJuego() {
 
     if (nombreJugador.empty())
         nombreJugador = "Heroe";
-    this -> jugador = Jugador(nombreJugador, 75, 8000, 12, 20);
+    this -> jugador = Jugador(nombreJugador, 100, 30, 35, 30);
 
     jugador.GetInventario().Agregar(
     std::make_unique<Consumible>("Pocion pequena", "Restaura 25 puntos de vida", 25, 0)
@@ -295,15 +323,6 @@ bool ControladorRPG::MenuPrincipal() {
         case 5:
             exit(0);
             break;
-        case 6: {
-            //Temporal
-            std::vector<std::unique_ptr<Enemigo>> enemigosPrueba;
-            enemigosPrueba.push_back(std::make_unique<Merodeador>());
-            enemigosPrueba.push_back(std::make_unique<Merodeador>());
-            enemigosPrueba.push_back(std::make_unique<Constructo>());
-            Combate(enemigosPrueba);
-        }
-            break;
     }
     return true;
 }
@@ -332,12 +351,30 @@ void ControladorRPG::MoverHabitacion() {
     Habitacion* destino = actual->GetConexion(dir);
 
     if (!destino) {
-        std::cout << "No hay salida en esa dirección.\n";
+        std::cout << "No hay salida en esa direccion.\n";
         return;
     }
+    if (destino->GetID() == 10) {
+        if (!jugador.TieneObjetoClave("Llave Vieja")) {
+            std::cout << "La puerta está sellada. Necesitas la Llave Vieja.\n";
+            return;
+        }
+    }
 
+    if (destino->GetID() == 16) {
+        if (!jugador.TieneObjetoClave("LlaveBoss")) {
+            std::cout << "Un poder antiguo bloquea el paso... necesitas la Llave del Boss.\n";
+            return;
+        }
+    }
+
+    ultimaHabitacion = habitacionActual;
     habitacionActual = destino->GetID();
     Habitacion* h = hab[habitacionActual].get();
+    if (!h->EnemigosDerrotados() && h->TieneEnemigos()) {
+        Combate(h->GetEnemigos());
+    }
+
     vista->MostrarHabitacion(h->GetDescripcion());
 }
 
@@ -379,8 +416,8 @@ void ControladorRPG::UsarObjetoInventario() {
 
     if (tipo == TipoObjeto::Equipable) {
         obj->Usar(jugador);
-        inv.Eliminar(index);
         vista->MostrarObjetoUsado(obj->GetNombre());
+        inv.Eliminar(index);
         return;
     }
 
@@ -422,9 +459,8 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
 
             if (opcion == 1) {
                 int obj = vista->ElegirObjetivo(enemigos);
-                int danio = jugador.Atacar();
-                int real = enemigos[obj]->RecibirDanio(danio);
-                vista->MostrarDanioJugador(real, *enemigos[obj]);
+                int danio = enemigos[obj]->RecibirDanio(jugador.Atacar());
+                vista->MostrarDanioJugador(danio, *enemigos[obj]);
                 turnoConsumido = true;
             }
 
@@ -468,8 +504,7 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
             int prob = rand() % 2;
 
             if (prob == 0) {
-                int danio = e->Atacar();
-                jugador.RecibirDanio(danio);
+                int danio = jugador.RecibirDanio(e->Atacar());
                 vista->MostrarDanioEnemigo(*e, danio, jugador);
             } else {
                 EjecutarHabilidadEnemigo(*e, enemigos);
@@ -480,8 +515,14 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
 
     }
 
-    if (jugador.EstaViva()) vista->MostrarVictoria();
-    else vista->MostrarDerrota();
+    if (jugador.EstaViva()) {
+        jugador.ResetBuffs();
+        vista->MostrarVictoria();
+    }
+    else {
+        vista->MostrarDerrota();
+        exit(0);
+    }
 }
 
 bool ControladorRPG::EjecutarHabilidadJugador(int index, int objetivo, std::vector<std::unique_ptr<Enemigo>>& enemigos)

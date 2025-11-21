@@ -1,7 +1,7 @@
 #include "Estatua.h"
 
 Estatua::Estatua()
-    : Enemigo("Estatua Embrujada", 90, 5, 18) {}
+    : Enemigo("Estatua Embrujada", 120, 5, 18) {}
 
 std::string Estatua::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     j.AplicarBuffAtaque(-5);
