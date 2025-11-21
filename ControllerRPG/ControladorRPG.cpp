@@ -368,7 +368,6 @@ void ControladorRPG::MoverHabitacion() {
         }
     }
 
-    ultimaHabitacion = habitacionActual;
     habitacionActual = destino->GetID();
     Habitacion* h = hab[habitacionActual].get();
     if (!h->EnemigosDerrotados() && h->TieneEnemigos()) {

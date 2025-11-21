@@ -6,7 +6,6 @@
 
 class EventoBossFinal : public Evento {
 private:
-    std::unique_ptr<Enemigo> boss;
 
 public:
     EventoBossFinal();

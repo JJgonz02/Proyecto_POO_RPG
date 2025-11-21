@@ -8,7 +8,6 @@
 
 class EventoMiniJefe : public Evento {
 private:
-    std::vector<std::unique_ptr<Enemigo>> enemigos;
 
 public:
     EventoMiniJefe();
