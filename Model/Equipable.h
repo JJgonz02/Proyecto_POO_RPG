@@ -12,8 +12,10 @@ private:
 public:
     Equipable(const std::string& n, const std::string& descr,
               int bonusAtk, int bonusDef)
-        : Objeto(nombre, descripcion, TipoObjeto::Equipable),
-          bonusAtaque(bonusAtk), bonusDefensa(bonusDef) {}
+        // CORRECCIÓN: Usar los parámetros 'n' y 'descr' en lugar de 'nombre' y 'descripcion'
+        : Objeto(n, descr, TipoObjeto::Equipable),
+          bonusAtaque(bonusAtk),
+          bonusDefensa(bonusDef) {}
 
     int GetBonusAtaque() const { return bonusAtaque; }
     int GetBonusDefensa() const { return bonusDefensa; }

@@ -2,6 +2,7 @@
 #define RPG_POO_HABITACION_H
 
 #include "Enemigo.h"
+#include "Evento.h"
 #include <vector>
 #include <memory>
 
@@ -16,6 +17,7 @@ private:
     Habitacion* conexiones[4];
 
     std::vector<std::unique_ptr<Enemigo>> enemigos;
+    std::unique_ptr<Evento> evento;
 
 public:
     Habitacion(int id,
@@ -38,6 +40,9 @@ public:
 
     void MarcarExplorada();
     void MarcarEnemigosDerrotados();
+    void AsignarEvento(std::unique_ptr<Evento> ev);
+    bool TieneEvento() const;
+    Evento* GetEvento();
 };
 
 #endif //RPG_POO_HABITACION_H

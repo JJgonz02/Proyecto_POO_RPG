@@ -57,3 +57,15 @@ void Habitacion::MarcarExplorada() {
 void Habitacion::MarcarEnemigosDerrotados() {
     enemigosDerrotados = true;
 }
+
+void Habitacion::AsignarEvento(std::unique_ptr<Evento> ev) {
+    evento = std::move(ev);
+}
+
+bool Habitacion::TieneEvento() const {
+    return (bool)evento;
+}
+
+Evento* Habitacion::GetEvento() {
+    return evento.get();
+}

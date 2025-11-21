@@ -42,4 +42,19 @@ add_executable(RPG_POO main.cpp
         Model/Mago.cpp
         Model/ObjetoClave.h
         Model/ObjetoClave.cpp
+        Model/Evento.h
+        Model/EventoObjeto.h
+        Model/EventoObjeto.cpp
+        Model/EventoCombate.h
+        Model/EventoCombate.cpp
+        Model/EventoMiniJefe.h
+        Model/EventoMiniJefe.cpp
+        Model/EventoBossFinal.h
+        Model/EventoBossFinal.cpp
+        Model/MiniJefe.h
+        Model/MiniJefe.cpp
+        Model/JefeFinal.h
+        Model/JefeFinal.cpp
+        Model/EventoFinal.h
+        Model/EventoFinal.cpp
 )

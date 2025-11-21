@@ -19,6 +19,7 @@ public:
     //Método exploración
     void MostrarHabitacion(const std::string& Texto);
     void MostrarExploracion(const std::string& Texto);
+    void MostrarEvento(const std::string& Texto);
     void MostrarConexiones(const Habitacion& h);
 
     //Métodos Inventario

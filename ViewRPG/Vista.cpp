@@ -49,9 +49,12 @@ void Vista::MostrarConexiones(const Habitacion& h) {
 
 
 void Vista::MostrarExploracion(const std::string& Texto) {
-    std::cout << Texto;
+    std::cout << Texto << "\n";
 }
 
+void Vista::MostrarEvento(const std::string& Texto) {
+    std::cout << Texto << "\n";
+}
 //Métodos Inventario
 
 void Vista::MostrarInventario(const Inventario& inv) const {

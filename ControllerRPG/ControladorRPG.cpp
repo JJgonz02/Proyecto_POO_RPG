@@ -2,140 +2,249 @@
 #include "..\Model\Merodeador.h"
 #include "..\Model\Constructo.h"
 #include "..\Model\GranConstructo.h"
+#include "..\Model\Espectro.h"
+#include "..\Model\Estatua.h"
+#include "..\Model\GranArmadura.h"
+#include "..\Model\Mago.h"
+#include "../Model/BestiaAlada.h"
 #include "..\Model\Habitacion.h"
 #include "..\Model\Consumible.h"
+#include "..\Model\Equipable.h"
+#include "..\Model\ObjetoClave.h"
+#include "..\Model\EventoObjeto.h"
+#include "..\Model\EventoCombate.h"
+#include "..\Model\EventoMiniJefe.h"
+#include "..\Model\EventoBossFinal.h"
+#include "..\Model\EventoFinal.h"
 #include <iostream>
 
+
+
 ControladorRPG::ControladorRPG(Vista* v)
-        : vista(v), habitacionActual(1), jugador("Heroe", 75, 8, 12, 20)
+        : vista(v), habitacionActual(1), jugador("Heroe", 75, 8000, 12, 20)
 {
     CrearMapa();
 }
 
+Jugador &ControladorRPG::GetJugador() {
+    return jugador;
+}
+
+Vista *ControladorRPG::GetVista() {
+    return vista;
+}
+
+void ControladorRPG::ConexionFinal() {
+    hab[16]->SetConexion(1, hab[17].get());
+}
+
 void ControladorRPG::CrearMapa() {
-    hab.resize(18, nullptr);
+    hab.resize(18);
 
 
-    hab[1]  = new Habitacion(1, "Te encuentras frente a la entrada de las ruinas de un antiguo templo "
+    hab[1]  = std::make_unique<Habitacion>(1, "Te encuentras frente a la entrada de las ruinas de un antiguo templo "
                                 "donde se veneraba a un dios del trueno, hay multiples estatuas alrededor de toda la entrada, parecen mirar en tu direccion\n",
                                 "Dentro de las bocas de las estatuas distingues un ligero brillo, te acercas y...\n");
 
-    hab[2]  = new Habitacion(2, "Una sala completamente silenciosa y oscura\n",
+    hab[2]  = std::make_unique<Habitacion>(2, "Una sala completamente silenciosa y oscura\n",
         "Invocas una pequeña flama para iluminar la habitación y...\n");
 
-    hab[3]  = new Habitacion(3, "Dentro de la habitación se levantan 2 pilares enormes decorados con antiguos simbolos elficos, "
+    hab[3]  = std::make_unique<Habitacion>(3, "Dentro de la habitación se levantan 2 pilares enormes decorados con antiguos simbolos elficos, "
                                 "parecen ilustrar un ritual en el cual los elfos se dirigian a la cima del templo al llegar a su adultez\n",
                                 "Detallando los muros de la habitacion te fijas en lo que parece un cuadro del dios del trueno, desgarrado, decides moverlo y...\n");
 
-    hab[4]  = new Habitacion(4, "Una gran estatua destruida se encuentra en el centro de la habitacion, no logras"
+    hab[4]  = std::make_unique<Habitacion>(4, "Una gran estatua destruida se encuentra en el centro de la habitacion, no logras"
                                 " identificar que representa pero su tamano ensombrece toda la habitacion\n",
                                 "Entre los restos de los enemigos que acabas de derrotar distingues un brillo, te acercas y...\n");
 
-    hab[5]  = new Habitacion(5, "Te encuentras dentro de la habitacion central del templo, hay "
+    hab[5]  = std::make_unique<Habitacion>(5, "Te encuentras dentro de la habitacion central del templo, hay "
                                 "4 columnas alrededor de la habitacion y las paredes tienen tallados ilustraciones de seres antiguos\n",
                                 "Distingues 4 salidas de esta habitacion\n");
 
-    hab[6]  = new Habitacion(6, "En la habitación un gran bloque cuya funcion no logras distinguir brilla ligeramente\n",
+    hab[6]  = std::make_unique<Habitacion>(6, "En la habitación un gran bloque cuya funcion no logras distinguir brilla ligeramente\n",
         "Decides dirigir tu mano hacia el bloque y...\n");
 
-    hab[7]  = new Habitacion(7, "Una gran habitación mayormente vacía, 4 fuentes pequeñas adornan la habitacion\n",
+    hab[7]  = std::make_unique<Habitacion>(7, "Una gran habitación mayormente vacía, 4 fuentes pequeñas adornan la habitacion\n",
         "En el fondo de la habitacion hay una vasija con simbolos elficos, cedes a tus instintos y decides romper la vasija y...\n");
 
-    hab[8]  = new Habitacion(8, "Te encuentras en lo que parece ser una antigua libreria, lamentablemente todos los libros "
+    hab[8]  = std::make_unique<Habitacion>(8, "Te encuentras en lo que parece ser una antigua libreria, lamentablemente todos los libros "
                                 "estan escritos en elfico antiguo, aun asi estas seguro de que en esta habitacion se oculta algo\n",
                                 "Observas un libro que parece resaltar entre los demas, lo tomas de la estanteria y...\n");
 
-    hab[9]  = new Habitacion(9, "Una estructura se encuentra en el centro de la habitacion rodeada de 3 estatuas pequeñas, sobre la estructura distingues algo que "
+    hab[9]  = std::make_unique<Habitacion>(9, "Una estructura se encuentra en el centro de la habitacion rodeada de 3 estatuas pequeñas, sobre la estructura distingues algo que "
                                 "parece util\n", "Decidis estirarte hacia la estructura y...\n");
 
-    hab[10] = new Habitacion(10,"Te encuentras una habitacion oscura con 2 antorchas encendidas, en medio de la habitacion se encuentra ¿un anciano?\n",
+    hab[10] = std::make_unique<Habitacion>(10,"Te encuentras una habitacion oscura con 2 antorchas encendidas, en medio de la habitacion se encuentra ¿un anciano?\n",
         "Decides hablar con el anciano...\n");
 
-    hab[11] = new Habitacion(11,"Te encuentras con una sala con multiples canales de agua, hay una sola salida hacia el norte\n",
+    hab[11] = std::make_unique<Habitacion>(11,"Te encuentras con una sala con multiples canales de agua, hay una sola salida hacia el norte\n",
         "No logras distinguir nada entre los canales de agua\n");
 
-    hab[12] = new Habitacion(12,"Una fuente inmensa se encuentra en el medio de la habitacion, te sientes observado\n",
+    hab[12] = std::make_unique<Habitacion>(12,"Una fuente inmensa se encuentra en el medio de la habitacion, te sientes observado\n",
         "Te acercas sediento al agua de la fuente...\n");
 
-    hab[13] = new Habitacion(13,"Una habitacion totalmente vacía con un cofre en el fondo\n",
+    hab[13] = std::make_unique<Habitacion>(13,"Una habitacion totalmente vacía con un cofre en el fondo\n",
         "Te dispones a abrir el cofre y...\n");
 
-    hab[14] = new Habitacion(14,"Una habitacion mayormente destruida con 4 pilares, un muro destruido deja ver las nubes y las montañas a la distancia\n",
+    hab[14] = std::make_unique<Habitacion>(14,"Una habitacion mayormente destruida con 4 pilares, un muro destruido deja ver las nubes y las montañas a la distancia\n",
         "No hay mucho que observar por aqui, solo notas la altura en la que te encuentras\n");
 
-    hab[15] = new Habitacion(15,"Una sala llena de pilares como un laberinto, probablemente un lugar antiguo de congregacion, sientes "
+    hab[15] = std::make_unique<Habitacion>(15,"Una sala llena de pilares como un laberinto, probablemente un lugar antiguo de congregacion, sientes "
                                 "como te aproximas cada vez mas a la cima\n", "La columna central parece ser un lugar para antiguas ofrendas, la revisas y...\n");
 
-    hab[16] = new Habitacion(16,"Abriendo la gran puerta te encuentras en lo que parece ser el patio del templo, el punto mas alto"
-                                " de la montaña, lo mas cercanos que podian estar los elfos a su dios, no parece haber mucho que ver aqui, "
-                                "¿habra sido toda tu aventura un desperdicio?\n","Adentrandote mas en el patio escuchas un ruido inexplicable, "
+    hab[16] = std::make_unique<Habitacion>(16,"Abriendo la gran puerta te encuentras en lo que parece ser el patio del templo, el punto mas alto"
+                                " de la montana, lo mas cercanos que podian estar los elfos a su dios, no parece haber mucho que ver aqui, "
+                                "habra sido toda tu aventura un desperdicio?\n","Adentrandote mas en el patio escuchas un ruido inexplicable, "
                                                                                "el viento te zarandea y de repente...\n");
 
-    hab[17] = new Habitacion(17,"Una habitacion completamente diferente a todo el templo, es solo una cueva, oscura, humeda, hasta pareceque hay un... ¿nido?\n",
+    hab[17] = std::make_unique<Habitacion>(17,"Una habitacion completamente diferente a todo el templo, es solo una cueva, oscura, humeda, hasta pareceque hay un... ¿nido?\n",
         "Acercandote al nido encuentras lo que has estado buscando todo este tiempo\n");
 
     // 0:Norte 1:Este 2:Sur 3:Oeste
-    hab[1]->SetConexion(0, hab[4]);
-    hab[1]->SetConexion(1, hab[3]);
-    hab[1]->SetConexion(3, hab[2]);
+    hab[1]->SetConexion(0, hab[4].get());
+    hab[1]->SetConexion(1, hab[3].get());
+    hab[1]->SetConexion(3, hab[2].get());
 
-    hab[2]->SetConexion(1, hab[1]);
+    hab[2]->SetConexion(1, hab[1].get());
 
-    hab[3]->SetConexion(3, hab[1]);;
+    hab[3]->SetConexion(3, hab[1].get());;
 
-    hab[4]->SetConexion(0, hab[5]);
-    hab[4]->SetConexion(2, hab[1]);
+    hab[4]->SetConexion(0, hab[5].get());
+    hab[4]->SetConexion(2, hab[1].get());
 
-    hab[5]->SetConexion(0, hab[8]);
-    hab[5]->SetConexion(1, hab[7]);
-    hab[5]->SetConexion(2, hab[4]);
-    hab[5]->SetConexion(3, hab[6]);
+    hab[5]->SetConexion(0, hab[8].get());
+    hab[5]->SetConexion(1, hab[7].get());
+    hab[5]->SetConexion(2, hab[4].get());
+    hab[5]->SetConexion(3, hab[6].get());
 
-    hab[6]->SetConexion(0, hab[9]);
-    hab[6]->SetConexion(1, hab[5]);
+    hab[6]->SetConexion(0, hab[9].get());
+    hab[6]->SetConexion(1, hab[5].get());
 
-    hab[7]->SetConexion(0, hab[14]);
-    hab[7]->SetConexion(3, hab[5]);
+    hab[7]->SetConexion(0, hab[14].get());
+    hab[7]->SetConexion(3, hab[5].get());
 
-    hab[8]->SetConexion(0, hab[11]);
-    hab[8]->SetConexion(1, hab[14]);
-    hab[8]->SetConexion(2, hab[5]);
-    hab[8]->SetConexion(3, hab[9]);
+    hab[8]->SetConexion(0, hab[11].get());
+    hab[8]->SetConexion(1, hab[14].get());
+    hab[8]->SetConexion(2, hab[5].get());
+    hab[8]->SetConexion(3, hab[9].get());
 
-    hab[9]->SetConexion(1, hab[8]);
-    hab[9]->SetConexion(2, hab[6]);
-    hab[9]->SetConexion(3, hab[10]);
+    hab[9]->SetConexion(1, hab[8].get());
+    hab[9]->SetConexion(2, hab[6].get());
+    hab[9]->SetConexion(3, hab[10].get());
 
-    hab[10]->SetConexion(1, hab[9]);
+    hab[10]->SetConexion(1, hab[9].get());
 
-    hab[11]->SetConexion(0, hab[12]);
-    hab[11]->SetConexion(2, hab[8]);
+    hab[11]->SetConexion(0, hab[12].get());
+    hab[11]->SetConexion(2, hab[8].get());
 
-    hab[12]->SetConexion(2, hab[11]);
-    hab[12]->SetConexion(3, hab[13]);
+    hab[12]->SetConexion(2, hab[11].get());
+    hab[12]->SetConexion(3, hab[13].get());
 
-    hab[13]->SetConexion(1, hab[12]);
+    hab[13]->SetConexion(1, hab[12].get());
 
-    hab[14]->SetConexion(1, hab[15]);
-    hab[14]->SetConexion(2, hab[7]);
-    hab[14]->SetConexion(3, hab[15]);
+    hab[14]->SetConexion(1, hab[15].get());
+    hab[14]->SetConexion(2, hab[7].get());
+    hab[14]->SetConexion(3, hab[15].get());
 
-    hab[15]->SetConexion(0, hab[16]);
-    hab[15]->SetConexion(3, hab[14]);
+    hab[15]->SetConexion(0, hab[16].get());
+    hab[15]->SetConexion(3, hab[14].get());
 
-    hab[16]->SetConexion(1, hab[17]);
-    hab[16]->SetConexion(2, hab[15]);
+    hab[16]->SetConexion(2, hab[15].get());
+
+    //Asignando eventos
+    hab[1]->AsignarEvento(
+    std::make_unique<EventoObjeto>(
+        std::make_unique<Consumible>("Pocion", "Recupera 40HP", 40, 0)
+    )
+);
+    std::vector<std::unique_ptr<Enemigo>> lista;
+    lista.push_back(std::make_unique<BestiaAlada>());
+    lista.push_back(std::make_unique<BestiaAlada>());
+    lista.push_back(std::make_unique<BestiaAlada>());
+
+    hab[2]->AsignarEvento(
+        std::make_unique<EventoCombate>(std::move(lista))
+    );
+
+    hab[3]->AsignarEvento(
+    std::make_unique<EventoObjeto>(
+        std::make_unique<Equipable>("Daga Oxidada", "Aumenta tu ataque +20 durante 1 combate", 20, 0)
+    )
+);
+
+    hab[4]->AsignarEvento(
+    std::make_unique<EventoObjeto>(
+        std::make_unique<ObjetoClave>("Llave Vieja", "Una vieja llave con el simbolo del templo")
+    )
+);
+
+    std::vector<std::unique_ptr<Enemigo>> lista2;
+    lista2.push_back(std::make_unique<GranConstructo>());
+    lista2.push_back(std::make_unique<Constructo>());
+
+    hab[6]->AsignarEvento(
+        std::make_unique<EventoCombate>(std::move(lista2))
+    );
+
+    hab[7]->AsignarEvento(
+std::make_unique<EventoObjeto>(
+    std::make_unique<Consumible>("Gran Elixir", "+50 vida + 20 mana", 50, 20)
+)
+);
+
+    hab[8]->AsignarEvento(
+   std::make_unique<EventoObjeto>(
+       std::make_unique<Equipable>("Escudo Pequeño", "Aumenta tu defensa +25 durante un combate", 0, 25)
+   )
+   );
+
+    hab[9]->AsignarEvento(
+   std::make_unique<EventoObjeto>(
+       std::make_unique<Equipable>("Espada Magica", "Aumenta tu ataque +35 y defensa +10 durante un combate", 35, 10)
+   )
+   );
+
+    hab[10]->AsignarEvento(
+    std::make_unique<EventoObjeto>(
+    std::make_unique<Equipable>("Pechera Audaz", "Aumenta tu ataque +5 y defensa +40 durante un combate", 5, 40)
+)
+);
+
+    hab[12]->AsignarEvento(
+   std::make_unique<EventoObjeto>(
+   std::make_unique<Consumible>("Agua Bendita", "Efecto Sanador Maximo", 200, 200)
+)
+);
+
+    hab[13]->AsignarEvento(
+    std::make_unique<EventoMiniJefe>()
+);
+
+
+    hab[15]->AsignarEvento(
+std::make_unique<EventoObjeto>(
+std::make_unique<Equipable>("Cetro Ceremonial", "Curioso cetro con gran efecto en combate", 50, 50)
+)
+);
+
+    hab[16]->AsignarEvento(
+std::make_unique<EventoBossFinal>()
+);
+
+    hab[17]->AsignarEvento(
+std::make_unique<EventoFinal>()
+);
 }
 
-
 void ControladorRPG::IniciarJuego() {
+
     std::string nombreJugador;
     std::cout << "Introduce el nombre de tu heroe: ";
     std::getline(std::cin, nombreJugador);
 
     if (nombreJugador.empty())
         nombreJugador = "Heroe";
-    this -> jugador = Jugador(nombreJugador, 75, 8, 12, 20);
+    this -> jugador = Jugador(nombreJugador, 75, 8000, 12, 20);
 
     jugador.GetInventario().Agregar(
     std::make_unique<Consumible>("Pocion pequena", "Restaura 25 puntos de vida", 25, 0)
@@ -152,16 +261,21 @@ void ControladorRPG::IniciarJuego() {
     jugador.AgregarHabilidad("GranEspadazo");
     jugador.AgregarHabilidad("CuracionMagica");
 
-    Habitacion* h = hab[habitacionActual];
+    Habitacion* h = hab[habitacionActual].get();
     vista->MostrarHabitacion(h->GetDescripcion());
-    while (true) {
-        MenuPrincipal();
-    };
 
+    bool jugando = true;
 
+    while (jugando && jugador.EstaViva()) {
+        jugando = MenuPrincipal();
+    }
+
+    if (!jugador.EstaViva()) {
+        vista->MostrarDerrota();
+    }
 }
 
-void ControladorRPG::MenuPrincipal() {
+bool ControladorRPG::MenuPrincipal() {
     vista->MostrarMenuPrincipal();
     int opcion = vista->LeerOpcionJugador();
 
@@ -190,15 +304,18 @@ void ControladorRPG::MenuPrincipal() {
             Combate(enemigosPrueba);
         }
             break;
-        default:
-            break;
     }
+    return true;
 }
 
 void ControladorRPG::ExplorarHabitacion() {
-    Habitacion* h = hab[habitacionActual];
+    Habitacion* h = hab[habitacionActual].get();
 
     vista->MostrarExploracion(h->GetTextoExploracion());
+
+    if (!h->EstaExplorada() && h->TieneEvento()) {
+        h->GetEvento()->Ejecutar(*this);
+    }
 
     h->MarcarExplorada();
 
@@ -206,7 +323,7 @@ void ControladorRPG::ExplorarHabitacion() {
 
 void ControladorRPG::MoverHabitacion() {
 
-    Habitacion* actual = hab[habitacionActual];
+    Habitacion* actual = hab[habitacionActual].get();
 
     vista->MostrarConexiones(*actual);
 
@@ -220,7 +337,7 @@ void ControladorRPG::MoverHabitacion() {
     }
 
     habitacionActual = destino->GetID();
-    Habitacion* h = hab[habitacionActual];
+    Habitacion* h = hab[habitacionActual].get();
     vista->MostrarHabitacion(h->GetDescripcion());
 }
 

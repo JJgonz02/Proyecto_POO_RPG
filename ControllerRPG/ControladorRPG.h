@@ -9,17 +9,22 @@
 class ControladorRPG {
 private:
     Vista* vista;
-    std::vector<Habitacion*> hab;
+    std::vector<std::unique_ptr<Habitacion>> hab;
     int habitacionActual;
     Jugador jugador;
 
 
 public:
     ControladorRPG(Vista* v);
+    Jugador& GetJugador();
+    Vista* GetVista();
+    void ConexionFinal();
+
+
 
     void CrearMapa();
     void IniciarJuego();
-    void MenuPrincipal();
+    bool MenuPrincipal();
 
     void ExplorarHabitacion();
     void MoverHabitacion();
