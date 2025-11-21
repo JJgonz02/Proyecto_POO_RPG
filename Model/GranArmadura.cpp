@@ -1,7 +1,7 @@
 #include "GranArmadura.h"
 
 GranArmadura::GranArmadura()
-    : Enemigo("Gran Armadura", 130, 25, 28) {}
+    : Enemigo("Gran Armadura", 130, 25, 35) {}
 
 std::string GranArmadura::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     j.GastarMana(5);

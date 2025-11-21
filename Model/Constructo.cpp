@@ -1,7 +1,7 @@
 #include "Constructo.h"
 
 Constructo::Constructo()
-    : Enemigo("Constructo", 80, 18, 30) {}
+    : Enemigo("Constructo", 80, 18, 20) {}
 
 std::string Constructo::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     int danio = j.RecibirDanio(ataque*0.7);

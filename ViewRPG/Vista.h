@@ -45,6 +45,7 @@ public:
     void MostrarDanioEnemigo(const Enemigo& e, int danio, const Jugador& j);
     void MostrarHabilidadEnemigo(const Enemigo& e,const std::string& Texto);
     void MostrarVictoria();
+    void MostrarSubirNivel(int lvl);
     void MostrarDerrota();
     void MostrarSinMana();
 };

@@ -21,7 +21,7 @@
 
 
 ControladorRPG::ControladorRPG(Vista* v)
-        : vista(v), habitacionActual(1), jugador("Heroe", 100, 30, 35, 30)
+        : vista(v), habitacionActual(1), jugador("Heroe", 100, 40, 35, 30)
 {
     CrearMapa();
 }
@@ -47,7 +47,7 @@ void ControladorRPG::CrearMapa() {
                                 "Dentro de las bocas de las estatuas distingues un ligero brillo, te acercas y...\n");
 
     hab[2]  = std::make_unique<Habitacion>(2, "Una sala completamente silenciosa y oscura\n",
-        "Invocas una pequeña flama para iluminar la habitación y...\n");
+        "Invocas una pequena flama para iluminar la habitacion y...\n");
 
     hab[3]  = std::make_unique<Habitacion>(3, "Dentro de la habitacion se levantan 2 pilares enormes decorados con antiguos simbolos elficos, "
                                 "parecen ilustrar un ritual en el cual los elfos se dirigian a la cima del templo al llegar a su adultez\n",
@@ -272,7 +272,7 @@ void ControladorRPG::IniciarJuego() {
 
     if (nombreJugador.empty())
         nombreJugador = "Heroe";
-    this -> jugador = Jugador(nombreJugador, 100, 30, 35, 30);
+    this -> jugador = Jugador(nombreJugador, 100, 40, 35, 30);
 
     jugador.GetInventario().Agregar(
     std::make_unique<Consumible>("Pocion pequena", "Restaura 25 puntos de vida", 25, 0)
@@ -518,6 +518,12 @@ void ControladorRPG::Combate(std::vector<std::unique_ptr<Enemigo>>& enemigos)
     if (jugador.EstaViva()) {
         jugador.ResetBuffs();
         vista->MostrarVictoria();
+        for (const auto& e : enemigos) {
+            if (!e->EstaViva()) {
+                bool subida = jugador.SubirDeNivel();
+                if (subida) {vista->MostrarSubirNivel(jugador.GetNivel());}
+            }
+        }
     }
     else {
         vista->MostrarDerrota();

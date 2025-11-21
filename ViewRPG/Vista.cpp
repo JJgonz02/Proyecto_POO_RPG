@@ -103,8 +103,9 @@ void Vista::MostrarTurnoJugador(const Jugador& j) {
     std::cout << "2) Inventario\n";
 
     int op = 3;
+    std::string costosMana = "33587";
     for (const auto& h : j.GetHabilidades()) {
-        std::cout << op << ") " << h << "\n";
+        std::cout << op << ") " << h << " "<<costosMana[op-3]<<" mana"<<"\n";
         op++;
     }
 }
@@ -162,6 +163,10 @@ void Vista::MostrarHabilidadEnemigo(const Enemigo& e, const std::string& Texto) 
 
 void Vista::MostrarVictoria() {
     std::cout << "\nVictoria\n";
+}
+
+void Vista::MostrarSubirNivel(int lvl) {
+    std::cout << "\nSubes de nivel!   Nivel: " + std::to_string(lvl) + "\n";
 }
 
 void Vista::MostrarDerrota() {

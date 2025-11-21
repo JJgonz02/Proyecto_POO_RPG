@@ -1,7 +1,7 @@
 #include "Merodeador.h"
 
 Merodeador::Merodeador()
-    : Enemigo("Merodeador de las Ruinas", 30, 10, 10){}
+    : Enemigo("Merodeador de las Ruinas", 30, 10, 12){}
 
 std::string Merodeador::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     ataque += 5;

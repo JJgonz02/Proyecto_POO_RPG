@@ -8,8 +8,10 @@ class Jugador : public Entidad {
 private:
     int maxMana;
     int mana;
-    int defensaTemporal;
-    int ataqueTemporal;
+    int defensaReal;
+    int ataqueReal;
+    int nivel = 1;
+    int enemigosDerrotados;
     std::vector<std::string> habilidades;
     Inventario inventario;
 
@@ -40,6 +42,10 @@ public:
 
     Inventario& GetInventario();
     bool TieneObjetoClave(const std::string& nombre);
+
+    //Sistema de niveles
+    bool SubirDeNivel();
+    int GetNivel() const { return nivel; }
     };
 
 #endif

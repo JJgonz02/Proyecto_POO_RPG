@@ -1,7 +1,7 @@
 #include "JefeFinal.h"
 
 JefeFinal::JefeFinal()
-    : Enemigo("Dios del Trueno - Dragon Ancestral", 500, 95, 110) {}
+    : Enemigo("Dios del Trueno - Dragon Ancestral", 500, 70, 60) {}
 
 std::string JefeFinal::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     int mult = (rand() % 11);

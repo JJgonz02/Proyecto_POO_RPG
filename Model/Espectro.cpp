@@ -1,7 +1,7 @@
 #include "Espectro.h"
 
 Espectro::Espectro()
-    : Enemigo("Espectro", 50, 30, 10) {}
+    : Enemigo("Espectro", 50, 30, 15) {}
 
 std::string Espectro::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     j.GastarMana(10);

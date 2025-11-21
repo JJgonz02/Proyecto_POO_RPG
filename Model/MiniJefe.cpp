@@ -1,7 +1,7 @@
 #include "MiniJefe.h"
 
 MiniJefe::MiniJefe()
-    : Enemigo("Mimic", 320, 58, 32) {}
+    : Enemigo("Mimic", 320, 28, 40) {}
 
 std::string MiniJefe::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     int cura = j.RecibirDanio(ataque);

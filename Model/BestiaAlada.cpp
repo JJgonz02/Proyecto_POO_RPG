@@ -1,7 +1,7 @@
 #include "BestiaAlada.h"
 
 BestiaAlada::BestiaAlada()
-    : Enemigo("Bestia Alada", 75, 18, 20) {}
+    : Enemigo("Bestia Alada", 75, 18, 15) {}
 
 std::string BestiaAlada::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     j.AplicarBuffDefensa(-5);

@@ -4,7 +4,7 @@ Entidad::Entidad(const std::string& n, int hp, int atk, int def)
     : nombre(n), vida(hp), maxVida(hp), ataque(atk), defensa(def), vivo(true) {}
 
 int Entidad::RecibirDanio(int cantidad) {
-    int danioFinal = (cantidad * 10 + defensa - 1) / defensa;
+    int danioFinal = cantidad*(25/defensa);
     if (danioFinal < 1) danioFinal = 1;
     vida -= danioFinal;
     if (vida <= 0) { vida = 0; vivo = false; }

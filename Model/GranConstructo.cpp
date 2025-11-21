@@ -1,7 +1,7 @@
 #include "GranConstructo.h"
 
 GranConstructo::GranConstructo()
-    : Enemigo("Gran Constructo", 150, 12, 25) {}
+    : Enemigo("Gran Constructo", 150, 12, 38) {}
 
 std::string GranConstructo::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     defensa += 8;

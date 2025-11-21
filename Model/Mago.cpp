@@ -1,7 +1,7 @@
 #include "Mago.h"
 
 Mago::Mago()
-    : Enemigo("Mago Esqueleto", 30, 25, 35) {}
+    : Enemigo("Mago Esqueleto", 30, 25, 25) {}
 
 std::string Mago::Habilidad(Jugador& j, std::vector<std::unique_ptr<Enemigo>>& aliados) {
     j.AplicarBuffDefensa(-3);
